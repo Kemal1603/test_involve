@@ -1,7 +1,8 @@
+//------------------------- IMPORTED MODULES -------------------------//
 import 'package:flutter/material.dart';
 
 import 'Country.dart';
-
+//------------------------ CLASS DECLARATION -------------------------//
 class CountriesCartList extends ChangeNotifier {
   List<Country> allCountries = [];
 
@@ -36,15 +37,10 @@ class CountriesCartList extends ChangeNotifier {
   }
 
 
-  /*void addCart({Europe country}) {
-
-    this.items.add(country);
-    notifyListeners();
-
-  }*/
 
   void removeCountry({int index}) {
     this.allCountries.removeAt(index);
     notifyListeners();
   }
 }
+//------------------------------- EOF -------------------------------//

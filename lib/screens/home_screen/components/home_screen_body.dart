@@ -1,5 +1,5 @@
+//------------------------- IMPORTED MODULES -------------------------//
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:test_involve_app/models/Country.dart';
 import 'package:test_involve_app/models/europe_provider.dart';
@@ -7,8 +7,11 @@ import 'package:test_involve_app/network/api_call.dart';
 import 'package:test_involve_app/screens/details_screen/details_screen.dart';
 import 'package:test_involve_app/screens/home_screen/components/try_again_button.dart';
 
-import '../../../size_config.dart';
+import '../../../components/size_config.dart';
+import 'item_card.dart';
+import 'secondary_loader.dart';
 
+//------------------------ CLASS DECLARATION -------------------------//
 class HomeScreenBodyWidget extends StatefulWidget {
   final data;
 
@@ -26,6 +29,7 @@ class _HomeScreenBodyWidgetState extends State<HomeScreenBodyWidget> {
   bool searchFieldPause = false;
   List<Country> items = [];
 
+  /*---- FUNCTION WHICH IS DELAY SEARCH RESULTS FOR 1.5 SECONDS----*/
   void searchFieldDelay() async {
     setState(() {
       searchFieldPause = true;
@@ -36,6 +40,8 @@ class _HomeScreenBodyWidgetState extends State<HomeScreenBodyWidget> {
     });
   }
 
+  /*---- FUNCTION WHICH'LL BE CALLED 8 SECS AFTER PAGE INITIALIZATION
+   IN CASE IF SOMETHING'LL GO WRONG----*/
   void rebootDelay() async {
     await Future.delayed(Duration(seconds: 8));
     setState(() {
@@ -43,6 +49,9 @@ class _HomeScreenBodyWidgetState extends State<HomeScreenBodyWidget> {
     });
   }
 
+  /*---- FUNCTION WHICH IS RETURN NECESSARY LIST DEPEND ON USER'S
+  INPUT  THIS FUNCTION IS ACTIVATING ONLY UNDER CONDITION WHERE
+   USER'S INPUT LENGTH > 3 ----*/
   void filterSearchResults(String query) {
     List<Country> dummySearchList = [];
     dummySearchList.addAll(widget.data.allCountries);
@@ -65,6 +74,9 @@ class _HomeScreenBodyWidgetState extends State<HomeScreenBodyWidget> {
     }
   }
 
+
+  /*---- FUNCTION WHICH IS FETCHING DATA FROM API AND SET PROVIDER MODELS
+  allCountries LIST TO countriesFromApi ----*/
   getData() async {
     await Network('https://restcountries.eu/rest/v2/region/europe')
         .fetchData()
@@ -129,15 +141,7 @@ class _HomeScreenBodyWidgetState extends State<HomeScreenBodyWidget> {
           ),
         ),
         searchFieldPause
-            ? SizedBox(
-                height: SizeConfig.screenHeight * 0.4,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              )
+            ? SecondaryLoaderWidget()
             : Container(
                 height: SizeConfig.screenHeight * 0.8,
                 child: widget.data.allCountries.length > 0
@@ -172,35 +176,7 @@ class _HomeScreenBodyWidgetState extends State<HomeScreenBodyWidget> {
                                 ),
                                 key: UniqueKey(),
                                 background: Container(color: Colors.redAccent),
-                                child: Card(
-                                  elevation: 3.0,
-                                  child: ListTile(
-                                    leading: Container(
-                                      width: SizeConfig.screenWidth * 0.1,
-                                      height: SizeConfig.screenHeight * 0.1,
-                                      child: SvgPicture.network(
-                                          '${items[index].flag}'),
-                                    ),
-                                    title: Center(
-                                      child: Column(
-                                        children: [
-                                          Text('${items[index].name}'),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.screenHeight * 0.02,
-                                          ),
-                                          Text('${items[index].subregion}'),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.screenHeight * 0.02,
-                                          ),
-                                          Text('${items[index].alpha2Code}')
-                                        ],
-                                      ),
-                                    ),
-                                    trailing: Icon(Icons.arrow_forward_ios),
-                                  ),
-                                ),
+                                child: ItemCardWidget(items: items, index: index,),
                                 direction: DismissDirection.endToStart,
                                 onDismissed: (direction) {
                                   setState(() {
@@ -222,3 +198,5 @@ class _HomeScreenBodyWidgetState extends State<HomeScreenBodyWidget> {
     );
   }
 }
+
+//------------------------------- EOF -------------------------------//

@@ -1,8 +1,9 @@
+//------------------------- IMPORTED MODULES -------------------------//
 import 'package:flutter/material.dart';
 
 import '../home_screen.dart';
 
-
+//------------------------ CLASS DECLARATION -------------------------//
 class TryAgainButton extends StatelessWidget {
 
   @override
@@ -24,3 +25,4 @@ class TryAgainButton extends StatelessWidget {
     );
   }
 }
+//------------------------------- EOF -------------------------------//

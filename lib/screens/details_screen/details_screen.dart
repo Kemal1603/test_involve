@@ -1,8 +1,11 @@
+//------------------------- IMPORTED MODULES -------------------------//
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import '../../size_config.dart';
 
+import '../../components/size_config.dart';
+import 'components/country_details_body.dart';
+
+
+//------------------------ CLASS DECLARATION -------------------------//
 class DetailsScreen extends StatelessWidget {
   static String routeName = '/details';
 
@@ -29,86 +32,14 @@ class DetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: SizeConfig.screenHeight * 0.5,
-            child: FlutterMap(
-              options: MapOptions(
-                center: LatLng(country.latlng[0], country.latlng[1]),
-                zoom: 6.0,
-              ),
-              layers: [
-                TileLayerOptions(
-                    urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c']),
-                MarkerLayerOptions(
-                  markers: [
-                    Marker(
-                      width: 80.0,
-                      height: 80.0,
-                      point: LatLng(country.latlng[0], country.latlng[1]),
-                      builder: (ctx) => Container(
-                        child: Icon(
-                          Icons.add_location,
-                          size: 50.0,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            thickness: 2.0,
-          ),
-          CountryDetailRow(text: 'Numeric Code', data: country.numericCode),
-          CountryDetailRow(text: 'Borders', data: country.borders),
-          CountryDetailRow(text: 'Currencies', data: country.currencies),
-        ],
-      ),
+      body: CountryDetailBody(country: country),
     );
   }
 }
 
-class CountryDetailRow extends StatelessWidget {
-
-  final String text;
-  final dynamic data;
 
 
-  CountryDetailRow({this.text, this.data});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '$text:',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-          ),
-          SizedBox(
-            width: SizeConfig.screenWidth * 0.08,
-          ),
-          Container(
-            width: SizeConfig.screenWidth * 0.4,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                '$data',
-                style: TextStyle(fontSize: 17.0, color: Colors.lightBlue),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
+//------------------------------- EOF -------------------------------//
+
+

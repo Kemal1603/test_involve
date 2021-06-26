@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test_involve_app/routes.dart';
+import 'file:///C:/Users/123/Desktop/Flutter/UDEMY_LAST/udemy/test_involve_app/lib/components/routes.dart';
 import 'package:test_involve_app/screens/home_screen/home_screen.dart';
 
 import 'models/europe_provider.dart';
